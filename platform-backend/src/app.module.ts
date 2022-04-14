@@ -11,6 +11,8 @@ import { CommonModule } from './common/common.module';
 import { User } from './users/entities/user.entity';
 import { JwtModule } from './jwt/jwt.module';
 import { JwtMiddleware } from './jwt/jwt.middleware';
+import { Verification } from './users/entities/verification.entity';
+import { MailModule } from './mail/mail.module';
 
 
 @Module({
@@ -26,7 +28,10 @@ import { JwtMiddleware } from './jwt/jwt.middleware';
         DB_USERNAME: Joi.string(),
         DB_PASSWORD: Joi.string(),
         DB_NAME: Joi.string(),
-        PRIVATE_KEY: Joi.string()
+        PRIVATE_KEY: Joi.string(),
+        MAILGUN_API_KEY: Joi.string(), 
+        MAILGUN_DOMAIN_NAME: Joi.string(),
+        MAILGUN_FROM_EMAIL: Joi.string()
       })
     }),
     TypeOrmModule.forRoot({
@@ -38,7 +43,7 @@ import { JwtMiddleware } from './jwt/jwt.middleware';
       database: process.env.DB_NAME,
       synchronize: process.env.NODE_ENV !== "prod",
       logging: true,
-      entities: [Restaurant, User]
+      entities: [Restaurant, User, Verification]
     }),
 
     GraphQLModule.forRoot<ApolloDriverConfig>({
@@ -50,7 +55,12 @@ import { JwtMiddleware } from './jwt/jwt.middleware';
       privateKey: process.env.PRIVATE_KEY
     }),
     RestaurantsModule,
-    UsersModule
+    UsersModule,
+    MailModule.forRoot({
+      apiKey: process.env.MAILGUN_API_KEY,
+      domain: process.env.MAILGUN_DOMAIN_NAME,
+      fromEmail: process.env.MAILGUN_FROM_EMAIL
+    })
   ],
   controllers: [],
   providers: []
