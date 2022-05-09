@@ -17,7 +17,7 @@ export class PaymentResolver {
   @Mutation(returns => CreatePaymentOuput)
   @Role(['Owner'])
   createPayment(
-      @AuthUser() owner: User,
+    @AuthUser() owner: User,
     @Args('input') createPaymentInput: CreatePaymentInput,
   ): Promise<CreatePaymentOuput> {
     return this.paymentService.createPayment(owner, createPaymentInput);

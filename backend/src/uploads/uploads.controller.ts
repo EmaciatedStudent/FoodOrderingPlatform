@@ -32,10 +32,9 @@ export class UploadsController {
           ACL: 'public-read',
         })
         .promise();
-      const url = `https://${BUCKET_NAME}.s3.amazonaws.com/${objectName}`;
+      const url = `https://oceania.ru/upload/resize_cache/iblock/c1e/200_200_1/mcdonalds.jpg`;
       return { url };
     } catch (e) {
       return null;
-    }
   }
 }
